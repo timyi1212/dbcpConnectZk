@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>SingleInstance</title>
+
+    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css"/>
+    <link href="style/authority/common_style.css" rel="stylesheet" type="text/css"/>
+
+    <script language="javascript" type="text/javascript" src="script/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="script/highcharts.js"></script>
+    <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <style type="text/css">
+        .detailInfo {
+            width: 100%;
+            height: 70%;
+            allowtransparency: true;
+        }
+        .ipAddr {
+        	margin-right: 50px;
+        }
+        .wasParam {
+        	margin-right: 50px;
+        }
+        .dsInfo {
+        	width: 150px;
+        }
+    </style>
+</head>
+
+<body>
+<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
+<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
+
+<div id="container">
+    <form name="wasInfoQueryform" id="wasInfoQueryform" method="POST">
+        <div class="ui_content">
+            <div class="ui_text_indent">
+                <div id="box_border">
+                    <div id="box_top">搜索</div>
+                    <div id="box_center">
+                        &nbsp;&nbsp;标识
+                        <select name="wasServerId" id="wasServerId" class="ui_select01 ipAddr">
+                            #foreach($wlsServer in $wlsServerList)
+                            <option value="$!wlsServer.id">$!wlsServer.id/$!wlsServer.ipAddr/$!wlsServer.servername</option>
+                            #end
+                        </select>
+                        参数名称
+                        <select name="WASParam" id="WASParam" class="ui_select01 wasParam">
+                            <option value="memUsage">内存使用量</option>
+                            <option value="threadPoolSize">活动线程数</option>
+                            <option value="dsPoolSize">连接池大小</option>
+                        </select>
+                        数据源
+                        <select name="dsInfo" id="dsInfo" class="ui_select01 dsInfo">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <input type="button" id="monitorBtn" name="monitorBtn" class="ui_input_btn01" value="监控"/>
+    </form>
+</div>
+
+<div id="detailInfo" class="detailInfo"></div>
+<script language="javascript" type="text/javascript" src="script/singleInstance.js"></script>
+</body>
+</html>
+

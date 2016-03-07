@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>Data Source List</title>
+
+    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css"/>
+    <link href="style/authority/common_style.css" rel="stylesheet" type="text/css"/>
+
+    <script language="javascript" type="text/javascript" src="script/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="script/highcharts.js"></script>
+    <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <style type="text/css">
+        .detailInfo {
+            width: 100%;
+            height: 70%;
+            allowtransparency: true;
+        }
+        .ipAddr {
+        	margin-right: 50px;
+        }
+        .wasParam {
+        	margin-right: 50px;
+        }
+        .dsInfo {
+        	width: 150px;
+        }
+        .timePeriod {
+        	margin-right: 50px;
+        }
+        .operationBar {
+        	float: right;
+        }
+        .downloadBtn {
+        	margin-right: 150px;
+        }
+    </style>
+</head>
+
+<body>
+<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
+<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
+
+<div id="container">
+    <form name="wlsInfoQueryform" id="wlsInfoQueryform" method="POST">
+        <div class="ui_content">
+            <div class="ui_text_indent">
+                <div id="box_border">
+                    <div id="box_top">搜索</div>
+                    <div id="box_center">
+                        &nbsp;&nbsp;标识
+                        <select name="wasServerId" id="wasServerId" class="ui_select01 ipAddr">
+                            #foreach($wlsServer in $wlsServerList)
+                            <option value="$!wlsServer.id">$!wlsServer.id/$!wlsServer.ipAddr/$!wlsServer.servername</option>
+                            #end
+                        </select>
+                        参数名称
+                        <select name="WASParam" id="WASParam" class="ui_select01 wasParam">
+                            <option value="memUsage" selected="selected">内存使用量</option>
+                            <option value="threadPoolSize">活动线程数</option>
+                            <option value="dsPoolSize">连接池大小</option>
+                        </select>
+                        数据源
+                        <select name="dsInfo" id="dsInfo" class="ui_select01 dsInfo">
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="operationBar">
+	        <input type="radio" id="dayPeriod" name="timePeriod" value="day" checked="checked" /><label class="timePeriod">&nbsp;前一天</label>
+	        <input type="radio" id="weekPeriod" name="timePeriod" value="week"/><label class="timePeriod">&nbsp;前一周</label>
+	        <input type="radio" id="monthPeriod" name="timePeriod" value="month"/><label class="timePeriod">&nbsp;前一月</label>
+	        <input type="button" id="generateBtn" name="generateBtn" class="ui_input_btn01" value="生成报表"/>&nbsp;&nbsp;
+	        <!--<input type="button" id="downloadBtn" name="downloadBtn" class="ui_input_btn01 downloadBtn" value="下载报表"/>
+        --></div>
+    </form>
+</div>
+<br/>
+<input type="hidden" value="" id="chartImg" />
+<div id="detailInfo" class="detailInfo">
+</div>
+<script language="javascript" type="text/javascript">
+	$(document).ready(function () {
+		$("#WASParam").change(function () {
+	        // "3" means Param for Data source
+	        if ($("#WASParam").val() == "dsPoolSize") {
+	            fetchDataSource();
+	        } else {
+	            $("#dsInfo").html("");
+	        }
+	    });
+
+	    $("#wlsServerId").change(function () {
+        $("#WASParam").html("");
+        var str = "<option value='memUsage'>内存使用量</option><option value='threadPoolSize'>活动线程数</option><option value='dsPoolSize'>连接池大小</option>";
+        $("#WASParam").html(str);
+        $("#dsInfo").html("");
+    });
+
+	    function fetchDataSource() {
+	        var url = "wlsJDBC/get.htm";
+	        var optionStr = "";
+	        $.ajax({
+	            url: url,
+	            type: "post",
+	            dataType: 'json',
+	            data: {
+	                'wasServerId': $("#wasServerId").val()
+	            },
+	            success: function (dsList) {
+	                var data = dsList.data;
+	                for (var i = 0; i < data.length; i++) {
+	                
+                    optionStr += "<option value='" + data[i].id + "'>" + data[i].dsName + "</option>";
+	                }
+	                $("#dsInfo").html(optionStr);
+	            }
+	        });
+	    }
+	    
+	    function dataURItoBlob(dataURI) {
+	        'use strict'
+	        var byteString, 
+	            mimestring 
+
+	        if(dataURI.split(',')[0].indexOf('base64') !== -1 ) {
+	            byteString = atob(dataURI.split(',')[1])
+	        } else {
+	            byteString = decodeURI(dataURI.split(',')[1])
+	        }
+
+	        mimestring = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+	        var content = new Array();
+	        for (var i = 0; i < byteString.length; i++) {
+	            content[i] = byteString.charCodeAt(i)
+	        }
+
+	        return new Blob([new Uint8Array(content)], {type: mimestring});
+	    }
+	    
+	    function getDataUri(url, callback) {
+	        var image = new Image();
+
+	        image.onload = function () {
+	            var canvas = document.createElement('canvas');
+	            canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+	            canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+
+	            canvas.getContext('2d').drawImage(this, 0, 0);
+
+	            // Get raw image data
+	            callback(canvas.toDataURL('image/jpg'));//.replace(/^data:image\/(png|jpg);base64,/, ''));
+
+	            // ... or get as Data URI
+	            //callback(canvas.toDataURL('image/png'));
+	        };
+
+	        image.src = url;
+	    }
+
+	    $("#downloadBtn").click(function() {
+	    	if(!$("#chartImg").val()) {
+	    		alert("请先生成报表，再继续下载.");
+	    	} else {
+	    		var url = $("#chartImg").val();
+	    		alert(url);
+	    		var filename = url.substring(8);
+	    		getDataUri(url, function(dataUri) {
+	    			download(filename, dataURItoBlob(dataUri))
+	    		}); 
+	    	}
+	    });
+	    
+	    $("#generateBtn").click(function() {
+	    	if(!$('input[name = "timePeriod"]:checked').val()) {
+	    		alert("请先选择一个时间周期!");
+	    		return false;
+	    	}
+	    	var url;
+	    	var params = {
+	                'wasServerId': $("#wasServerId").val(),
+	                'timePeriod': $("input[name='timePeriod']:checked").val()
+            };
+	    	console.log($("#WASParam").val());
+	    	if($("#WASParam").val() == "memUsage") {
+		    	url = "wlsChart/memUsageChart.htm";
+	    	}
+	    	if($("#WASParam").val() == "threadPoolSize") {
+	    		url = "wlsChart/threadPoolSizeChart.htm";
+	    	}
+	    	if($("#WASParam").val() == "dsPoolSize") {
+	    		url = "wlsChart/dsPoolSizeChart.htm";
+	    		params["dsInfo"] = $("#dsInfo").val();
+	    	}
+	    	
+	        var optionStr = "";
+	        $.ajax({
+	            url: url,
+	            type: "post",
+				dataType: 'json',
+	            data: params,
+	            success: function (result) {
+	            	
+	            	$('#detailInfo').html("<img width='1000' height='600' src='" + result.data + "' />");
+	            	$("#chartImg").val(result.data);
+            	}
+	        });
+	    });
+	});
+</script>
+</body>
+</html>
+

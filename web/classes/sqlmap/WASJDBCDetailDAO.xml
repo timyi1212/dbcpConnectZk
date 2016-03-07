@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eproe.monitor.was.dao.WASJDBCDetailDAO">
+	<resultMap id="result" type="WASJDBCDetail">
+		<result property="id" column="id" javaType="Integer"/>
+		<result property="creator" column="creator" javaType="String"/>
+		<result property="modifier" column="modifier" javaType="String"/>
+		<result property="createTime" column="create_time" javaType="Date"/>
+		<result property="updatedTime" column="updated_time" javaType="Date"/>
+		<result property="isDeleted" column="is_deleted" javaType="String"/>
+		<result property="wasJDBCId" column="was_jdbc_id" javaType="Integer"/>
+		<result property="averagePoolSize" column="average_pool_size" javaType="int"/>
+	</resultMap><!--
+
+	<select id="countAll" resultType="int">
+		select count(1)
+		from sp_task
+		where is_deleted = 'n'
+	</select>
+
+	<select id="getWASJDBCDetailByPeriod" resultType="WASJDBCDetail" parameterType="Map">
+		<![CDATA[
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_jdbc_id,average_pool_size 
+		  from was_jdbc_detail 
+		 where is_deleted = 'n' 
+		   and create_time >=  #{startTime} 
+		   and create_time <=  #{endTime}
+		 ]]>
+	</select>
+	
+	<insert id="insertWASJDBCDetail" useGeneratedKeys="true" keyProperty="id" parameterType="WASJDBCDetail">
+		insert into was_jdbc_detail (creator, modifier, create_time, updated_time, is_deleted, was_jdbc_id, average_pool_size)
+		values(#{creator}, #{modifier}, #{createTime}, #{updatedTime}, #{isDeleted}, #{wasJDBCId}, #{averagePoolSize})
+	</insert>
+	
+	<select id="getJDBCDetailByDay" resultType="WASJDBCDetail" parameterType="Map">
+		<![CDATA[
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_jdbc_id,average_pool_size
+		  from was_jdbc_detail 
+		 where is_deleted = 'n' 
+		   and was_jdbc_id = #{wasJDBCId}
+		   and create_time >=  (now() - INTERVAL #{interval} HOUR)  
+		   
+
+		 
+		 ]]>
+	</select>
+	<select id="getJDBCDetailByWeek" resultType="WASJDBCDetail" parameterType="Map">
+		<![CDATA[
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_jdbc_id,average_pool_size
+		  from was_jdbc_detail 
+		 where is_deleted = 'n' 
+		   and was_jdbc_id = #{wasJDBCId}
+		   and create_time >=  (CURDATE() - INTERVAL #{interval} DAY)  
+		 
+		 ]]>
+	</select>
+	<select id="getJDBCDetailByMonth" resultType="WASJDBCDetail" parameterType="Map">
+		<![CDATA[
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_jdbc_id,average_pool_size
+		  from was_jdbc_detail 
+		 where is_deleted = 'n' 
+		   and was_jdbc_id = #{wasJDBCId}
+		   and create_time >=  (CURDATE() - INTERVAL #{interval} DAY)  
+		
+		 ]]>
+	</select>
+
+--></mapper>

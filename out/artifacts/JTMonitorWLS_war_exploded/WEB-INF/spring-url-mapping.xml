@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!-- Page URL and Controller Mapping Configuration -->
+    <bean name="/singleInstance.htm" class="com.eproe.monitor.was.control.SingleInstanceCtrl"/>
+    <bean name="/multiInstance.htm" class="com.eproe.monitor.was.control.MultiInstanceCtrl"/>
+    <bean name="/historyChart.htm" class="com.eproe.monitor.was.control.HistoryChartCtrl"/>
+    <bean name="/historyCSVChart.htm" class="com.eproe.monitor.was.control.HistoryCSVChartCtrl"/>
+    <bean name="/wasServerConfig.htm" class="com.eproe.monitor.was.control.WLSServerConfigCtrl"/>
+    <bean name="/wasJDBCConfig.htm" class="com.eproe.monitor.was.control.WLSJDBCConfigCtrl"/>
+    <bean name="/wasConfigBackup.htm" class="com.eproe.monitor.was.control.WASConfigBackupCtrl"/>
+    <!--<bean name="/wasOperate.htm" class="com.eproe.monitor.was.control.WASOperateCtrl"/>-->
+    <!--<bean name="/wasMonitorInfo.htm" class="com.eproe.monitor.was.control.WASMonitorInfoCtrl"/>
+    --><bean name="/addWLSServer.htm" class="com.eproe.monitor.was.control.AddWLSServerCtrl"/>
+    <bean name="/editWLSServer.htm" class="com.eproe.monitor.was.control.EditWLSServerCtrl"/>
+   
+	
+</beans>

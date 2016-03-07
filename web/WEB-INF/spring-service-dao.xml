@@ -1,0 +1,85 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!-- DAO definition -->
+	<bean id="wlsServerDAO" class="com.eproe.monitor.was.dao.WLSServerDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+<!--	<bean id="wasServerDAO" class="com.eproe.monitor.was.dao.WASServerDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>-->
+	<bean id="wlsJDBCDAO" class="com.eproe.monitor.was.dao.WLSJDBCDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+<!--	<bean id="wasJDBCDAO" class="com.eproe.monitor.was.dao.WASJDBCDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>-->
+	
+<!--	<bean id="wasJDBCDetailDAO" class="com.eproe.monitor.was.dao.WASJDBCDetailDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>-->
+	
+	<bean id="wlsJDBCDetailDAO" class="com.eproe.monitor.was.dao.WLSJDBCDetailDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="wlsJVMDetailDAO" class="com.eproe.monitor.was.dao.WLSJVMDetailDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="wlsThreadPoolDetailDAO" class="com.eproe.monitor.was.dao.WLSThreadPoolDetailDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>
+<!--	<bean id="wasThreadPoolDetailDAO" class="com.eproe.monitor.was.dao.WASThreadPoolDetailDAO">
+		<property name="sessionFactory" ref="sqlSessionFactory" />
+	</bean>-->
+	
+	<!-- Service definition -->
+	<bean id="wlsServerService" class="com.eproe.monitor.was.service.impl.WLSServerServiceImpl">
+		<property name="wlsServerDAO" ref="wlsServerDAO" />
+	</bean>
+<!--	<bean id="wasServerService" class="com.eproe.monitor.was.service.impl.WASServerServiceImpl">
+		<property name="wasServerDAO" ref="wasServerDAO" />
+	</bean>-->
+	<bean id="wlsJDBCervice" class="com.eproe.monitor.was.service.impl.WLSJDBCServiceImpl">
+		<property name="wlsJDBCDAO" ref="wlsJDBCDAO" />
+	</bean>
+	
+<!--	<bean id="wasJDBCervice" class="com.eproe.monitor.was.service.impl.WASJDBCServiceImpl">
+		<property name="wasJDBCDAO" ref="wasJDBCDAO" />
+	</bean>-->
+<!--	<bean id="wasJDBCDetailService" class="com.eproe.monitor.was.service.impl.WASJDBCDetailServiceImpl">
+		<property name="wasJDBCDetailDAO" ref="wasJDBCDetailDAO" />
+	</bean>-->
+	
+	<bean id="wlsJDBCDetailService" class="com.eproe.monitor.was.service.impl.WLSJDBCDetailServiceImpl">
+		<property name="wlsJDBCDetailDAO" ref="wlsJDBCDetailDAO" />
+	</bean>
+	
+	<bean id="wlsJVMService" class="com.eproe.monitor.was.service.impl.WLSJVMDetailServiceImpl">
+		<property name="wlsJVMDetailDAO" ref="wlsJVMDetailDAO" />
+	</bean>
+<!--	<bean id="wasThreadPoolService" class="com.eproe.monitor.was.service.impl.WASThreadPoolDetailServiceImpl">
+		<property name="wasThreadPoolDetailDAO" ref="wasThreadPoolDetailDAO" />
+	</bean>-->
+	
+	<bean id="wlsThreadPoolService" class="com.eproe.monitor.was.service.impl.WLSThreadPoolDetailServiceImpl">
+		<property name="wlsThreadPoolDetailDAO" ref="wlsThreadPoolDetailDAO" />
+	</bean>
+	
+	<!--<bean id="wasUtil" class="com.eproe.monitor.was.util.WASUtil" init-method="init" />-->
+	<bean id="springcontext" class="com.eproe.monitor.was.util.ContextUtil"/>
+	
+	
+	
+	</beans>

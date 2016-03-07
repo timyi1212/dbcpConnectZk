@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>History CSV Chart</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<!-- 
+<link rel="stylesheet" type="text/css" href="styles.css"> 
+-->
+<script language="javascript" type="text/javascript" src="script/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="script/highcharts.js"></script>
+<link href="style/authority/basic_layout.css" rel="stylesheet"
+	type="text/css">
+<link href="style/authority/common_style.css" rel="stylesheet"
+	type="text/css">
+<script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+<script type="text/javascript">
+	function download() {
+		var url = '';
+		if ($("#uniqueid").val() != $("#uu").val()) {
+			//$("#form").attr("action", "showbasiccsv.do");
+			url = "showbasiccsv.do";
+		} else {
+			var str = "/excel/" + $("#filename").val();
+			//$("#form").attr("action", str);
+			url = "str";
+		}
+		
+		$.ajax({
+			url : url,
+			type : "post",
+			//dataType : 'json',
+			data : {
+				'paramselect': paramselect,
+				'radio': radio,
+				'jdbcselect': jdbcselect,
+				'timeselect': timeselect
+			},
+			success : function(data) {
+				$("#chartDataDiv").html(data);
+			}
+		});
+		
+	}
+
+	function generate() {
+
+		var mydate = new Date();
+		var month = mydate.getMonth() + 1;
+		var h = mydate.getHours();
+		var min = mydate.getMinutes();
+		var day = mydate.getDate();
+		var year = mydate.getFullYear();
+		var sec = mydate.getSeconds();
+		var date = h + "-" + min + "-" + sec;
+		var url = "generatecsv.do"; 
+		$.ajax({
+			url : url,
+			type : "post",
+			//dataType : 'json',
+			data : {
+				'radio': $("#uu").val(),
+				'date': date
+			},
+			success : function(data) {
+				$("#chartDataDiv").html(data);
+			}
+		});
+		
+	}
+</script>
+</head>
+<body>
+
+	<input type="hidden" name="allIDCheck" value="" id="allIDCheck" />
+	<input type="hidden" name="fangyuanEntity.fyXqName" value=""
+		id="fyXqName" />
+	<div id="container">
+		<div class="ui_content">
+			<div class="ui_text_indent">
+				<div id="box_border">
+					<div id="box_top">搜索</div>
+					<div id="box_center">
+						唯一值
+						<select name="uu" id="uu" class="ui_select01">
+							#foreach ( $wasInfo in $wasInfoList)
+							<option value="$!wasInfo.uniqueid" selected="selected">$wasInfo.uniqueid</option>
+							#end
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+
+		<form name="form" id="form" action="" method="post">
+			<input type="submit" onclick="generate()" class="ui_input_btn01"
+				value="生成 Excel" /> &nbsp; &nbsp; <input type="hidden"
+				name="filename" id="filename" value="$!fileName" /> <input
+				type="hidden" name="uniqueid" id="uniqueid" value="$!uniqueid" />
+
+			<input type="button" onclick="download()" class="ui_input_btn01"
+				value="下载Excel" />
+		</form>
+	</div>
+
+	<!-- ><iframe name="runtime" id="rightMain" scrolling="no" src="blank.jsp"
+		frameborder="no" width="100%" height="60%" allowtransparency="true" />
+	</iframe>  -->
+	<div id="excelTableDiv" width="100%" height="60%">
+		
+	</div>
+
+</body>
+</html>
+

@@ -1,0 +1,125 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>WAS Operate</title>
+
+    <link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css"/>
+    <link href="style/authority/common_style.css" rel="stylesheet" type="text/css"/>
+
+    <script language="javascript" type="text/javascript" src="script/jquery.min.js"></script>
+    <script language="javascript" type="text/javascript" src="script/highcharts.js"></script>
+    <script type="text/javascript" src="scripts/authority/commonAll.js"></script>
+    <script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script src="scripts/My97DatePicker/WdatePicker.js"
+            type="text/javascript" defer="defer"></script>
+    <script type="text/javascript"
+            src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <script type="text/javascript">
+        function showds() {
+            var url = "/getds.do";
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                data: {
+                    'uniqueid': $("#uu").val(),
+                    'qu': $("#paramselect").val()
+                },
+                success: function (jdbclist) {
+                    optionstr = "";
+                    $.each(jdbclist, function (i, val) {
+
+                        optionstr = optionstr + "<option value=" + val.jndi + ">"
+                                + val.jndi + "</option>"
+                    });
+                }
+            });
+            switch (qu) {
+                case "1":
+                    $("#jdbcselect").empty();
+                    $("").appendTo("#jdbcselect");
+                    break;
+                case "2":
+                    $("#jdbcselect").empty();
+                    $("").appendTo("#jdbcselect");
+                    break;
+                case "3":
+                    $("#jdbcselect").empty();
+                    $(optionstr).appendTo("#jdbcselect");
+                    break;
+            }
+        }
+
+        function startInstance() {
+            var jndi = "";
+            var url = "selectwasbasic.do";
+
+            if ($("#paramselect").val() == 3) {
+                jndi = $("#jdbcselect").val();
+            }
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: 'json',
+                data: {
+                    'paramselect': $("#paramselect").val(),
+                    'radio': $("#uu").val(),
+                    'jndi': $("#jdbcselect").val()
+                },
+                success: function (jdbclist) {
+                    optionstr = "";
+                    $.each(jdbclist, function (i, val) {
+
+                        optionstr = optionstr + "<option value=" + val.jndi + ">"
+                                + val.jndi + "</option>"
+                    });
+                }
+            });
+        }
+
+        function hiddends() {
+            $("#jdbcselect").empty();
+            $("").appendTo("#jdbcselect");
+            var str = "<option value=1>�ڴ���ʹ����</option><option value=2>�̳߳ش�С</option><option value=3>���ӳش�С</option>";
+            $("#paramselect").empty();
+            $(str).appendTo("#paramselect");
+
+        }
+    </script>
+</head>
+<body>
+<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
+<input type="hidden" name="fangyuanEntity.fyXqName" value="" id="fyXqName"/>
+
+<div id="container">
+    <div class="ui_content">
+        <div class="ui_text_indent">
+            <div id="box_border">
+                <div id="box_top">搜索</div>
+                <div id="box_center">
+                    IP地址／实例名<select name="uu" id="uu" class="ui_select01" onclick="hiddends()">
+                    #foreach($wasServer in $wasServerList)
+                    <option value="$!wasServer.id">$!wasServer.ipAddr &nbsp;</option>
+                    #end
+                </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br/>
+
+    <form name="form" id="form" target="runtime" action="" method="post">
+        <input type="submit" onclick="startInstance()" class="ui_input_btn01" value="启动"/> 
+        <input type="submit" onclick="stopInstance()" class="ui_input_btn01" value="停止"/>
+        <input type="button" onclick="restartInstance()" class="ui_input_btn01" value="重启"/>
+    </form>
+</div>
+
+<!-- <iframe name="runtime" id="rightMain" scrolling="no" src="blank.jsp"
+    frameborder="no" width="100%" height="70%" allowtransparency="true" />
+</iframe>  -->
+<div id="wasOperateDiv" width="100%" height="70%"></div>
+
+</body>
+</html>
+

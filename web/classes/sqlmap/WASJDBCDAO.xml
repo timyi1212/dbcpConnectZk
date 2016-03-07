@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eproe.monitor.was.dao.WASJDBCDAO">
+	<resultMap id="result" type="WASJDBC">
+		<result property="id" column="id" javaType="Integer"/>
+		<result property="creator" column="creator" javaType="String"/>
+		<result property="modifier" column="modifier" javaType="String"/>
+		<result property="createTime" column="create_time" javaType="Date"/>
+		<result property="updatedTime" column="updated_time" javaType="Date"/>
+		<result property="isDeleted" column="is_deleted" javaType="String"/>
+		<result property="wlsServerId" column="wls_server_id" javaType="Integer"/>
+		<result property="wlsServerIp" column="wls_server_ip" javaType="String"/>
+		<result property="wlsServerName" column="wls_servername" javaType="String"/>
+		<result property="dsName" column="ds_name" javaType="String"/>
+	</resultMap>
+
+	<select id="getAllWASJDBC" resultType="WASJDBC" parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_Server_Id,was_server_ip,jdbc_Provider,jndi_Name
+		 from was_jdbc
+		where is_deleted = 'n'
+	</select>
+	
+	
+	<select id="getAllWLSaaJDBC" resultType="WLSJDBC" parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,wls_server_id,wls_server_name,wls_server_ip,wls_servername,ds_name
+		 from wls_jdbc
+		where is_deleted = 'n'
+	</select>
+	
+	<insert id="addWASJDBC" useGeneratedKeys="true" keyProperty="id" parameterType="WASJDBC">
+		insert into was_jdbc (creator, modifier, create_time, updated_time, is_deleted, was_server_id, was_server_ip, jdbc_Provider, jndi_name)
+		values(#{creator}, #{modifier}, #{createTime}, #{updatedTime}, #{isDeleted}, #{wasServerId}, #{wasServerIp}, #{jdbcProvider}, #{jndiName})
+	</insert>
+	
+	<delete id="deleteWASJDBC" parameterType="Map">
+		delete from was_jdbc where id = #{id}
+	  
+	</delete>
+	
+	<select id="getWASJDBCById" resultType="WASJDBC" parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,was_Server_Id,was_server_ip,jdbc_Provider,jndi_Name
+		 from was_jdbc
+		where is_deleted = 'n' 
+		  and was_server_id = #{wasServerId}
+	</select>
+	
+	
+	<select id="getDSCountByProviderJndi" resultType="Integer"
+		parameterType="Map">
+		select count(1)
+		  from was_jdbc
+		 where is_deleted = 'n' 
+		   and jdbc_provider = #{jdbcprovider} and jndi_name = #{jndiname};
+	</select>
+</mapper>

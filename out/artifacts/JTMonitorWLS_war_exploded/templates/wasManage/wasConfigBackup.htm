@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <title>WAS Config Backup</title>
+
+    <link href="style/authority/basic_layout.css" rel="stylesheet"
+          type="text/css">
+    <link href="style/authority/common_style.css" rel="stylesheet"
+          type="text/css">
+    <link href="style/authority/zTreeStyle.css" rel="stylesheet"
+          type="text/css">
+    <link rel="stylesheet" type="text/css"
+          href="style/authority/jquery.fancybox-1.3.4.css" media="screen" />
+    <link href="style/jtmCommon.css" rel="stylesheet" type="text/css" />
+
+    <script language="javascript" type="text/javascript"
+            src="script/jquery.min.js">
+    </script>
+    <script language="javascript" type="text/javascript"
+            src="script/highcharts.js">
+    </script>
+    <script language="javascript" type="text/javascript"
+            src="script/exporting.js">
+    </script>
+    <script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+    <script type="text/javascript"
+            src="scripts/zTree/jquery.ztree.core-3.2.js"></script>
+    <script type="text/javascript"
+            src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+    <script type="text/javascript"
+            src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+
+    <script type="text/javascript"
+            src="scripts/artDialog/artDialog.js?skin=default"></script>
+    <script type="text/javascript">
+        function configBackup() {
+            $("#form").attr("action", "addwasinfo.do");
+        }
+
+        function shanchu() {
+            var radio = $('input:radio[name="radio"]:checked').val();
+            if (radio == null) {
+                alert("Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½Êµï¿½ï¿½");
+            } else {
+                $("#form").attr("action", "deletewasinfoforsave.do?radio=" + radio);
+            }
+        }
+
+        function edit() {
+            var radio = $('input:radio[name="radio"]:checked').val();
+            if (radio == null) {
+                alert("Ã»ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ÒªÉ¾ï¿½ï¿½ï¿½Êµï¿½ï¿½");
+            } else {
+                $("#form").attr("action", "editwasinfo.do?radio=" + radio);
+            }
+        }
+    </script>
+</head>
+
+<body>
+<div id="container">
+    <form name="form" id="form" action="" method="post">
+        <table id="table" class="unit-the-table table" cellspacing="0"
+               cellpadding="0" width="100%" align="center" border="0">
+            <tbody>
+            <tr>
+                <td width="40" style="background-color: #044599">å”¯ä¸€å€¼Öµ</td>
+                <td width="40" style="background-color: #044599">è¿›ç¨‹å��</td>
+                <td width="40" style="background-color: #044599">åœ°å�€Ö·</td>
+                <td width="40" style="background-color: #044599">JDKç‰ˆæœ¬</td>
+                <td width="40" style="background-color: #044599">æœ€å°�å †å¤§å°�</td>
+                <td width="40" style="background-color: #044599">æœ€å¤§å †å¤§å°�</td>
+                <td width="40" style="background-color: #044599">æœ€å°�çº¿ç¨‹æ•°</td>
+                <td width="40" style="background-color: #044599">æœ€å¤§çº¿ç¨‹æ•°</td>
+            </tr>
+            <tr>
+                <td width="40">1</td>
+                <td width="40">server1</td>
+                <td width="40">127.0.0.1</td>
+                <td width="40">java version "1.6.0"</td>
+                <td width="40">256</td>
+                <td width="40">512</td>
+                <td width="40">50</td>
+                <td width="40">50</td>
+            </tr>
+            </tbody>
+        </table>
+        <br/> <input type="button" class="ui_input_btn01" value="å¤‡ä»½"/>
+    </form>
+</div>
+</body>
+</html>

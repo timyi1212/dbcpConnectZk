@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eproe.monitor.was.dao.WASServerDAO">
+	<resultMap id="result" type="WASServer">
+		<result property="id" column="id" javaType="Integer"/>
+		<result property="creator" column="creator" javaType="String"/>
+		<result property="modifier" column="modifier" javaType="String"/>
+		<result property="createTime" column="create_time" javaType="Date"/>
+		<result property="updatedTime" column="updated_time" javaType="Date"/>
+		<result property="isDeleted" column="is_deleted" javaType="String"/>
+		<result property="ipAddr" column="ip_addr" javaType="String"/>
+		<result property="isSecurity" column="is_security" javaType="String"/>
+		<result property="soapPort" column="soap_port" javaType="String"/>
+		<result property="username" column="username" javaType="String"/>
+		<result property="password" column="password" javaType="String"/>
+	</resultMap>
+	
+	<select id="getAllWASServer" resultType="WASServer"
+		parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,ip_addr,is_security,soap_port,username,password
+		  from was_server
+		 where is_deleted = 'n'
+	</select>
+
+	<select id="getWASServerCountByParamsIPPort" resultType="Integer"
+		parameterType="Map">
+		select count(1)
+		  from was_server
+		 where is_deleted = 'n' 
+		   and ip_addr = #{ipAddr} and soap_port = #{soapPort};
+	</select>
+	
+	<select id="getWASServerCountByParamsPORT" resultType="Integer"
+		parameterType="Map">
+		select count(1)
+		  from was_server
+		 where is_deleted = 'n' 
+		   and soap_port = #{soapPort}
+	</select>
+	
+	
+	<select id="getWASServerById" resultType="WASServer"
+		parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,ip_addr,is_security,soap_port,username,password
+		  from was_server
+		 where is_deleted = 'n'
+		   and id = #{id}
+	</select>
+	
+	<insert id="addWASServer" useGeneratedKeys="true" keyProperty="id" parameterType="WASServer">
+		insert into was_server (creator, modifier, create_time, updated_time, is_deleted, ip_addr, is_security, soap_port, username, password)
+		values(#{creator}, #{modifier}, #{createTime}, #{updatedTime}, #{isDeleted}, #{ipAddr}, #{isSecurity}, #{soapPort}, #{username}, #{password})
+	</insert>
+	
+	<update id="updateWASServer" parameterType="WASServer">
+	  	update was_server set
+	  		creator = #{creator},
+		  	modifier = #{modifier},
+		  	create_time = #{createTime},
+		  	updated_time = #{updatedTime},
+		  	is_deleted = #{isDeleted},
+		  	ip_addr = #{ipAddr},
+		  	is_security = #{isSecurity},
+		  	soap_port = #{soapPort},
+		    username = #{username},
+		    password = #{password}
+	  	where id = #{id}
+	</update>
+	
+	<delete id="deleteWASServer" parameterType="Map">
+		delete from was_server where id = #{id}
+	  	
+	</delete>
+
+</mapper>

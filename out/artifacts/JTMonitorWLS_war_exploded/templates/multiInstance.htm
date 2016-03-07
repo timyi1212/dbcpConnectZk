@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Multi Instance</title>
+
+<link href="style/authority/basic_layout.css" rel="stylesheet" type="text/css"/>
+<link href="style/authority/common_style.css" rel="stylesheet" type="text/css"/>
+<link href="style/authority/zTreeStyle.css" rel="stylesheet" type="text/css" />
+<link href="style/jtmCommon.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="style/authority/jquery.fancybox-1.3.4.css" media="screen" />
+	
+<script language="javascript" type="text/javascript" src="script/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="script/highcharts.js"></script>
+<script language="javascript" type="text/javascript" src="script/exporting.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="scripts/zTree/jquery.ztree.core-3.2.js"></script>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<script type="text/javascript" src="scripts/artDialog/artDialog.js?skin=default"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		setInterval("reloadData()",30000);
+	});
+
+	function reloadData() {
+		var content = "";
+		var contentds = "";
+		var title = "<tr>" +
+						'<td width="20%" style="background-color: #044599">标识(ID/IP/Port/ServerName)</td>' +
+						
+						'<td width="10%" style="background-color: #044599">内存使用量(MB)</td>' +
+						'<td width="10%" style="background-color: #044599">活动线程数</td>' +
+						'<td width="60%" style="background-color: #044599">连接池大小</td>' +
+					"</tr>";
+		var data;
+		var id;
+		var ipAddr;
+		var memUsage;
+		var threadPoolSize;
+		var dsPoolSize;
+		var jndiconds;
+		var arr;
+		var port;
+		var serverName;
+		var url = "wlsMonitor/getMultiInstanceData.htm";
+		$.ajax({
+			url : url,
+			type : "get",
+			dataType : 'json',
+			success : function(result) {
+				$("#table tr:not(:first)").empty();
+				for (var i = 1; i <= result.data.length; i++) {
+					content = "";
+					contentds = "";
+					
+					data = result.data[i - 1];
+					serverName = data.serverName ? data.serverName : "";
+					id = data.id ? data.id : "";
+					port = data.port ? data.port : "";
+					ipAddr = data.ipAddr ? data.ipAddr : "";
+					memUsage = data.memUsage ? data.memUsage : "";
+					jndiconds = data.dsnameconds ? data.dsnameconds : "";
+					if(jndiconds) {
+						arr = jndiconds.split("?");
+						for(var j=0;j<arr.length;j++) {
+						if(j===arr.length-1 && arr[j]) {
+							contentds = contentds + "<td width='10%'>" + arr[j] + "</td></tr>";
+							
+						}
+						else if(j===arr.length-1 && !arr[j]){
+							contentds = contentds+ "</td>";
+						}
+						else {
+						
+						contentds = contentds+ "<td width='10%'>" + arr[j] + "</td>";
+						}
+						
+						}
+					
+					}
+					
+					
+					
+					//alert(jndiconds);
+					threadPoolSize = (data.threadPoolSize!=undefined)  ? data.threadPoolSize : "";
+					
+					//dsPoolSize = (data.dsPoolSize != "undefined")? data.dsPoolSize : "";
+					
+					
+					
+				
+				
+					
+					
+					content = content + 
+								  "<tr><td width='20%' class='dataRow'>" + id +"/" + ipAddr+ "/" + port +"/" + serverName +"</td>" + 
+								  
+								  "<td width='10%'>" + memUsage + "</td>" +
+								  "<td width='10%'>" + threadPoolSize + "</td>" +
+								  contentds;
+								 // "<td width='15%'>" + dsPoolSize + "&nbsp;</td></tr>";
+				
+				$("#table").append(content);
+				}
+				 
+				//$(".dataRow").html(title + content);
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+	<div id="container">
+		<table id="table" class="unit-the-table table dataRow" cellspacing="0"
+			cellpadding="0" width="100%" align="center" border="0">
+				<tr>
+					<td width="20%" style="background-color: #044599">标识(ID/IP/Port/ServerName)</td>
+				
+					<td width="10%" style="background-color: #044599">内存使用量(MB)</td>
+					<td width="10%" style="background-color: #044599">活动线程数</td>
+					<td width="60%" style="background-color: #044599" colspan=$colspan>连接池大小</td>
+				</tr>
+				#foreach($data in $multiDataList)
+				<tr>
+					<td width="5%">$!data.id/$!data.ipAddr/$!data.port/$!data.serverName</td>
+					
+					<td width="10%">$!data.memUsage </td>
+					<td width="10%">$!data.threadPoolSize </td>
+					#foreach($datasource in $!data.datasourceDTOList)
+					
+					<td width="10%">$!datasource.dsNameConcatDSPoolSize</td>
+					#end
+					
+				</tr>
+				#end
+		</table>
+	</div>
+</body>
+</html>

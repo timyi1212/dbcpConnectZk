@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.eproe.monitor.was.dao.WLSServerDAO">
+	<resultMap id="result" type="WLSServer">
+		<result property="id" column="id" javaType="Integer"/>
+		<result property="creator" column="creator" javaType="String"/>
+		<result property="modifier" column="modifier" javaType="String"/>
+		<result property="createTime" column="create_time" javaType="Date"/>
+		<result property="updatedTime" column="updated_time" javaType="Date"/>
+		<result property="isDeleted" column="is_deleted" javaType="String"/>
+		<result property="ipAddr" column="ip_addr" javaType="String"/>
+		<result property="port" column="port" javaType="String"/>
+		<result property="servername" column="server_name" javaType="String"/>
+		<result property="username" column="username" javaType="String"/>
+		<result property="password" column="password" javaType="String"/>
+		
+	</resultMap>
+	
+	<select id="getAllWLSServer" resultType="WLSServer"
+		parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,ip_addr,port,server_name,username,password
+		  from wls_server
+		 where is_deleted = 'n'
+	</select>
+
+	<select id="getWLSServerCountByParamsIPPort" resultType="Integer" parameterType="Map">
+		select count(1)
+		from wls_server
+		where is_deleted = 'n' 
+		and ip_addr = #{ipAddr} and port = #{port};
+	</select>
+	
+	<select id="getWASServerCountByParamsPORT" resultType="Integer"
+		parameterType="Map">
+		select count(1)
+		  from was_server
+		 where is_deleted = 'n' 
+		   and soap_port = #{soapPort}
+	</select>
+	
+	
+	<select id="getWLSServerById" resultType="WLSServer"
+		parameterType="Map">
+		select id,creator,modifier,create_time,updated_time,is_deleted,ip_addr,port,server_name,username,password
+		  from wls_server
+		 where is_deleted = 'n'
+		   and id = #{id}
+	</select>
+	
+	<insert id="addWLSServer" useGeneratedKeys="true" keyProperty="id" parameterType="WLSServer">
+		insert into wls_server (creator, modifier, create_time, updated_time, is_deleted, ip_addr, port, server_name,username, password)
+		values(#{creator}, #{modifier}, #{createTime},#{updatedTime}, #{isDeleted}, #{ipAddr}, #{port}, #{servername},#{username}, #{password})
+	</insert>
+	
+	<update id="updateWLSServer" parameterType="WLSServer">
+	  	update wls_server set
+	  		
+		  	updated_time = #{updatedTime},
+		  	
+		  	ip_addr = #{ipAddr},
+		  	
+		  	port = #{port},
+		  	server_name = #{servername},
+		    username = #{username},
+		    password = #{password}
+	  	where id = #{id}
+	</update>
+	
+	<delete id="deleteWLSServer" parameterType="Map">
+		delete from wls_server where id = #{id}
+	  	
+	</delete>
+
+</mapper>

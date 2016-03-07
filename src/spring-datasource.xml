@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+        <setting name="mapUnderscoreToCamelCase" value="true" />  
+	</settings>
+	<typeAliases>
+<!--		<typeAlias alias="WASServer" type="com.eproe.monitor.was.model.WASServer" />
+		<typeAlias alias="WASJDBC" type="com.eproe.monitor.was.model.WASJDBC" />-->
+		
+		<typeAlias alias="WLSJDBCDetail" type="com.eproe.monitor.was.model.WLSJDBCDetail" />
+		<typeAlias alias="WLSJVMDetail" type="com.eproe.monitor.was.model.WLSJVMDetail" />
+<!--		<typeAlias alias="WASThreadPoolDetail" type="com.eproe.monitor.was.model.WASThreadPoolDetail" />-->
+		<typeAlias alias="WLSThreadPoolDetail" type="com.eproe.monitor.was.model.WLSThreadPoolDetail" />
+		<typeAlias alias="WLSServer" type="com.eproe.monitor.was.model.WLSServer" />
+		<typeAlias alias="WLSJDBC" type="com.eproe.monitor.was.model.WLSJDBC" />
+		<!--<typeAlias alias="WASJVMDetail" type="com.eproe.monitor.was.model.WASJVMDetail" />-->
+	
+	</typeAliases>
+	    <environments default="development">
+        <environment id="development">
+        <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+            <property name="driver" value="com.mysql.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:3306/jtm?useUnicode=true&amp;characterEncoding=utf8" />
+            <property name="username" value="root"/>
+            <property name="password" value="mysql"/>
+            </dataSource>
+        </environment>
+    </environments>
+	<mappers>
+			<mapper resource="sqlmap/WASServerDAO.xml" />
+		<mapper resource="sqlmap/WASJDBCDAO.xml" />
+		
+		
+		<mapper resource="sqlmap/WLSJDBCDetailDAO.xml" />
+		<mapper resource="sqlmap/WLSJVMDetailDAO.xml" />
+		<!--<mapper resource="sqlmap/WASThreadPoolDetailDAO.xml"/>-->
+		<mapper resource="sqlmap/WLSThreadPoolDetailDAO.xml"/>
+		<mapper resource="sqlmap/WLSServerDAO.xml"/>
+		<mapper resource="sqlmap/WLSJDBCDAO.xml"/>	
+	<!--	<mapper resource="sqlmap/WASJVMDetailDAO.xml" />-->
+	</mappers>
+
+
+
+    
+    
+ 
+</configuration>
