@@ -352,15 +352,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://E:/中间件常用工具/java/JTMLIB/commons-logging-1.1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://E:/中间件常用工具/java/JTMLIB/commons-lang-2.4.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -479,6 +470,24 @@
       <library>
         <CLASSES>
           <root url="jar://E:/中间件常用工具/java/ZOOKEEPER/zookeeper-3.4.6.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://E:/中间件常用工具/java/c3p0-0.9.5.2.bin/c3p0-0.9.5.2/lib/mchange-commons-java-0.2.11.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://E:/中间件常用工具/java/c3p0-0.9.5.2.bin/c3p0-0.9.5.2/lib/改了/c3p0-0.9.5.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

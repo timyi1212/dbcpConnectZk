@@ -12,28 +12,54 @@
 		<property name="password" value="mysql" />
 	</bean>-->
 
-	<bean id="dbcpDS"  class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close"
+<!--	<bean id="dbcpDS"  class="org.apache.commons.dbcp.BasicDataSource"  destroy-method="close"
 			init-method="init" >
-<!--	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+&lt;!&ndash;	<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 	<property name="url" value="jdbc:mysql://localhost:3306/jtm?useUnicode=true&amp;characterEncoding=utf8" />
-	<property name="username" value="root" />-->
+	<property name="username" value="root" />&ndash;&gt;
 	<property name="initialSize" value="50"/>
 	<property name="maxActive" value="100"/>
-	<!--<property name="password" value="mysql" />-->
+	&lt;!&ndash;<property name="password" value="mysql" />&ndash;&gt;
 	<property name="appname" value="app1-1" />
 	<property name="connectString" value="127.0.0.1:2181"/>
+	</bean>-->
+
+
+
+	<bean id="c3p0DS" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		  destroy-method="close" init-method="init" >
+	<!--<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+	<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/jtm?useUnicode=true&amp;characterEncoding=utf8"></property>
+	<property name="user" value="root"></property>
+	<property name="password" value="mysql"></property>-->
+	<property name="minPoolSize" value="20"></property>
+
+		<property name="maxPoolSize" value="30"></property>
+		<property name="appname" value="app1-1" />
+		<property name="connectString" value="127.0.0.1:2181"/>
+		<!--<property name="checkoutTimeout" value="3000"></property>-->
+
+		<property name="idleConnectionTestPeriod" value="180"></property>
+		<property name="preferredTestQuery" value="select 1"></property>
+
+
 	</bean>
 
 
 
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dbcpDS" />
+		<property name="dataSource" ref="c3p0DS" />
 	</bean>
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dbcpDS" />
+		<property name="dataSource" ref="c3p0DS" />
 		<property name="configLocation" value="/WEB-INF/spring-mybatis.xml" />
+	</bean>
+
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="1" value="BATCH" />
 	</bean>
 
 </beans>

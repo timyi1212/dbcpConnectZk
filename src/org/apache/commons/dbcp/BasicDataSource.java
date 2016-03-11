@@ -1605,33 +1605,25 @@ public class BasicDataSource implements DataSource {
 
 
     protected String appname = null;
-    /*protected String uuid = null;*/
+
     protected String connectString = null;
     protected static final String rootPath = "/dbcp";
 
-    public String getConnectString() {
+    public synchronized String getConnectString() {
         return this.connectString;
     }
 
-    public void setConnectString(String connectString) {
+    public synchronized void setConnectString(String connectString) {
         this.connectString = connectString;
         this.restartNeeded = true;
     }
 
-/*    public String getUuid() {
-        return this.uuid;
-    }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-        this.restartNeeded = true;
-    }*/
-
-    public String getAppname() {
+    public synchronized String getAppname() {
         return this.appname;
     }
 
-    public void setAppname(String appname) {
+    public synchronized void setAppname(String appname) {
         this.appname = appname;
         this.restartNeeded = true;
     }

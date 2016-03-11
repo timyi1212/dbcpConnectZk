@@ -12,6 +12,7 @@
 	<!-- DAO definition -->
 	<bean id="wlsServerDAO" class="com.eproe.monitor.was.dao.WLSServerDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSession" ref="sqlSessionTemplate" />
 	</bean>
 	
 <!--	<bean id="wasServerDAO" class="com.eproe.monitor.was.dao.WASServerDAO">
@@ -19,6 +20,7 @@
 	</bean>-->
 	<bean id="wlsJDBCDAO" class="com.eproe.monitor.was.dao.WLSJDBCDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSession" ref="sqlSessionTemplate" />
 	</bean>
 	
 <!--	<bean id="wasJDBCDAO" class="com.eproe.monitor.was.dao.WASJDBCDAO">
@@ -31,14 +33,17 @@
 	
 	<bean id="wlsJDBCDetailDAO" class="com.eproe.monitor.was.dao.WLSJDBCDetailDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSession" ref="sqlSessionTemplate" />
 	</bean>
 	
 	<bean id="wlsJVMDetailDAO" class="com.eproe.monitor.was.dao.WLSJVMDetailDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSession" ref="sqlSessionTemplate" />
 	</bean>
 	
 	<bean id="wlsThreadPoolDetailDAO" class="com.eproe.monitor.was.dao.WLSThreadPoolDetailDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
+		<property name="sqlSession" ref="sqlSessionTemplate" />
 	</bean>
 <!--	<bean id="wasThreadPoolDetailDAO" class="com.eproe.monitor.was.dao.WASThreadPoolDetailDAO">
 		<property name="sessionFactory" ref="sqlSessionFactory" />
@@ -47,6 +52,7 @@
 	<!-- Service definition -->
 	<bean id="wlsServerService" class="com.eproe.monitor.was.service.impl.WLSServerServiceImpl">
 		<property name="wlsServerDAO" ref="wlsServerDAO" />
+		
 	</bean>
 <!--	<bean id="wasServerService" class="com.eproe.monitor.was.service.impl.WASServerServiceImpl">
 		<property name="wasServerDAO" ref="wasServerDAO" />

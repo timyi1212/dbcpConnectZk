@@ -6,19 +6,21 @@ import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-
+import org.mybatis.spring.SqlSessionTemplate;
 public class WLSJVMDetailDAO
 {
     private SqlSessionFactory sessionFactory;
-
+    private SqlSessionTemplate sqlSession;
     public void setSessionFactory(SqlSessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;
     }
-
+    public void setSqlSession(SqlSessionTemplate sqlSession) {
+        this.sqlSession = sqlSession;
+    }
     public boolean add(WLSJVMDetail jvmDetail) {
-        SqlSession session = this.sessionFactory.openSession();
-        return session.insert("insertWLSJVMDetail", jvmDetail) > 0;
+        //SqlSession session = this.sessionFactory.openSession();
+        return sqlSession.insert("insertWLSJVMDetail", jvmDetail) > 0;
     }
 
 
@@ -26,22 +28,22 @@ public class WLSJVMDetailDAO
 
 
     public List<WLSJVMDetail> getJVMDetailByDay(Map<String, Object> params) {
-        SqlSession session = this.sessionFactory.openSession();
-        return session.selectList("getJVMDetailByDay", params);
+        //SqlSession session = this.sessionFactory.openSession();
+        return sqlSession.selectList("getJVMDetailByDay", params);
     }
 
     public List<WLSJVMDetail> getJVMDetailByWeek(Map<String, Object> params) {
-        SqlSession session = this.sessionFactory.openSession();
-        return session.selectList("getJVMDetailByWeek", params);
+       // SqlSession session = this.sessionFactory.openSession();
+        return sqlSession.selectList("getJVMDetailByWeek", params);
     }
 
     public List<WLSJVMDetail> getJVMDetailByMonth(Map<String, Object> params) {
-        SqlSession session = this.sessionFactory.openSession();
-        return session.selectList("getJVMDetailByMonth", params);
+        //SqlSession session = this.sessionFactory.openSession();
+        return sqlSession.selectList("getJVMDetailByMonth", params);
     }
 
     public List<WLSJVMDetail> getAllJVMDetail(Map<String, Object> params) {
-        SqlSession session = this.sessionFactory.openSession();
-        return session.selectList("getAllJVMDetail", params);
+        //SqlSession session = this.sessionFactory.openSession();
+        return sqlSession.selectList("getAllJVMDetail", params);
     }
 }
